@@ -1,0 +1,8 @@
+//code goes here
+
+let tmp = [1,2,3,4];
+
+for (var k=0;k<tmp.length;k++){
+	console.log(tmp[k]);
+}
+
