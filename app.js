@@ -1,23 +1,93 @@
 //code goes here
-let questions = (function(){
+const questionsCtrl = (() => {
 	let qList = [];
-	let q = new Map();
-		q.set('question','What is my name?');
-		q.set(true,'Przemek');
-		q.set(2,'Parisa');
-		q.set(3,'Mark');
+	let randomList = [];
+	let newQ;
 	
-	qList.push(q);
-	q = new Map();
-	q.set('question','What is my birthday?');
-	q.set(true,'November 24');
-	q.set(1,'March 11');
-	q.set(2,'April 3');
-	qList.push(q);
-	return qList;
+	newQ = new Object();
+	newQ.question = [
+		'What is the capital of Poland?',
+		'Warsaw',
+		'Berlin',
+		'Moscow',
+		1
+	]
+	qList.push(newQ);
+
+	newQ = new Object();
+	newQ.question = [
+		'What is the capital of Canada?',
+		'Ottawa',
+		'Washington',
+		'Mexico',
+		1
+	]
+	qList.push(newQ);
+
+	newQ = new Object();
+	newQ.question = [
+		'What is the capital of Italy?',
+		'Rome',
+		'Washington',
+		'Berlin',
+		1
+	]
+	qList.push(newQ);
+
+	newQ = new Object();
+	newQ.question = [
+		'What is the capital of Germany?',
+		'Berlin',
+		'Moscow',
+		'Helsinki',
+		1
+	]
+	qList.push(newQ);
+
+	newQ = new Object();
+	newQ.question = [
+		'What is the capital of Austria?',
+		'Vienna',
+		'Rome',
+		'Mexico',
+		1
+	]
+	qList.push(newQ);
+	
+	
+	localStorage.clear();
+	//return;
+	localStorage.setItem('ql',JSON.stringify(qList));
+	let kk = JSON.parse(localStorage.getItem('ql'));
+	return {
+		questionList: qList,
+		q2: kk
+	}
+
 })();
 
-function init()
+
+const uiCtrl = (() => {
+
+	console.log(' uiCtrl started');
+	//some code
+})();
+
+
+const appCtrl = (() => {
+
+	//some code
+	console.log('appCtrl started');
+	return {
+		add: () => {
+			console.log('add');
+		}
+	}
+	
+
+})();
+
+init = () =>
 	{
 		
 		document.getElementById("start").addEventListener('click',function(){
@@ -30,10 +100,10 @@ function init()
 		//console.log(timer.getMinutes());
 		//console.log(timer.getTime());
 		//console.log(Date.now());
-		console.log(questions);
+		//console.log(questions);
 	}
 
-function Timer()
+Timer = () =>
 	{
 		//debugger;
 		let min = parseInt(document.getElementById('min').innerText);
@@ -57,6 +127,65 @@ function Timer()
 	}
 
 init();
-var x = JSON.stringify(questions[0]);
-console.log(x);
+//var x = JSON.stringify(questions[0]);
+//console.log(x);
 //Timer();
+
+
+/*
+	newQ.set('question','What is the capital of Poland?');
+	newQ.set(true,'Correct!');
+	newQ.set(1,'Warsaw');
+	newQ.set(2,'Berlin');
+	newQ.set(3,'Moscow');
+	qList.push(newQ);
+
+	newQ = new Map();
+	newQ.set('question','What is the capital of Canada?');
+	newQ.set(true,'Correct!');
+	newQ.set(1,'Ottawa');
+	newQ.set(2,'Washington');
+	newQ.set(3,'Mexico');
+	qList.push(newQ);
+
+	newQ = new Map();
+	newQ.set('question','What is the capital of Italy?');
+	newQ.set(true,'Correct!');
+	newQ.set(1,'Rome');
+	newQ.set(2,'Prague');
+	newQ.set(3,'Warsaw');
+	qList.push(newQ);
+
+	newQ = new Map();
+	newQ.set('question','What is the capital of Germany?');
+	newQ.set(true,'Correct!');
+	newQ.set(1,'Berlin');
+	newQ.set(2,'Helsinki');
+	newQ.set(3,'Mexico');
+	qList.push(newQ);
+
+	newQ = new Map();
+	newQ.set('question','What is the capital of Austria?');
+	newQ.set(true,'Correct!');
+	newQ.set(1,'Vienna');
+	newQ.set(2,'Copenhagen');
+	newQ.set(3,'Mexico');
+	qList.push(newQ);
+	//debugger;
+
+	let i = [1,2,3];
+	localStorage.setItem('q',JSON.stringify(i));
+	localStorage.setItem('b','hello');
+	//let tmp;
+	//tmp = new Object();
+	//tmp = qList;
+
+	for (let n=0;n<=2;n++){
+		let ran = Math.floor(Math.random()*qList.length);
+		let tmpItem = qList.splice(ran,1);
+		randomList.push(tmpItem);
+		//console.log(tmpItem);
+	}
+	qList = Object.assign(qList,tmp);
+
+	*/
