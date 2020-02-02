@@ -1,7 +1,160 @@
 //code goes here
 const questionsCtrl = (() => {
+	console.log('questionCtrl module started...')
+		
+	genQuestions = () => {
+		//debugger;
+		let qList = JSON.parse(localStorage.getItem('ql'));
+		let tmp = [];
+		for (let n=0;n<3;n++){
+			let ran = Math.floor(Math.random()*qList.length);
+			let tmpItem = qList.splice(ran,1);
+			tmp.push(tmpItem);
+		}
+		return tmp;
+	}
+	//debugger;
+	
+	
+	return {
+		
+		questionList: genQuestions
+		//aa:qList
+	}
+
+})();
+
+
+const uiCtrl = (() => {
+	//debugger;
+	
+	//console.log('uiCtrl module started...');
+	//console.log(q);
+	//some code
+	
+})();
+
+
+const appCtrl = (() => {
+
+	let btn1 = document.getElementById('btn1');
+	let btn2 = document.getElementById('btn2');
+	let btn3 = document.getElementById('btn3');
+	let firstRow = document.getElementById('firstRow');
+	let secondRow = document.getElementById('secondRow');
+	let questionBox = document.getElementById('question');
+	let questions = questionsCtrl.questionList();
+	//console.log('appCtrl module started...');
+	Timer = () =>
+	{
+		//debugger;
+		let min = parseInt(document.getElementById('min').innerText);
+		let sec = parseInt(document.getElementById('sec').innerText);
+		if (min == 0 && sec == 0){
+			return -1;
+		}
+		let timeout = min*60*1000+sec*1000;
+		let timer = new Date();
+		timer.setTime(timeout);
+		timeout -=1000;
+		timer.setTime(timeout);
+		if (timeout < 10000){
+			document.getElementById('timeLeft').className = "font-weight-bold col-md-2 text-danger";
+		}
+		document.getElementById('min').innerText = timer.getMinutes(timeout);
+		document.getElementById('sec').innerText = timer.getSeconds(timeout);
+		return timeout;
+		
+		//console.log(timer.getMinutes());
+		
+	}
+	return {
+		checkAnswer:answer = (btn) => {
+			console.log('checking answer...');
+			switch(btn){
+				case 1:
+					if (btn1.value == "true"){
+						console.log('correct!');
+						return true;
+					}	
+					else {
+						console.log('wrong answer!');
+						return true;
+					}
+					
+				case 2:
+					if (btn2.value == "true"){
+						console.log('correct!');
+						return true;
+						
+					}
+					else {
+						console.log('wrong answer!');
+						return true;
+					}
+					
+				case 3:
+					if (btn3.value == "true"){
+						console.log('correct!');
+						return true;
+					}
+					else {
+						console.log('wrong answer!');
+						return true;
+					}
+
+			}
+			
+		},
+		startQuiz:quiz = () => {
+			console.log('starting quiz');
+			firstRow.className = "invisible";
+			secondRow.className = "row py-4 text-center visible";
+			
+			
+			//console.log(questions.length);
+			//console.log(k.question[0]);
+			let timerInterval = setInterval(Timer,1000);
+			for ( let n=0;n<questions.length;n++ ){
+				//debugger;
+				let k = questions[n][0];
+				questionBox.innerText = k.question[0];
+				btn1.innerText = k.question[1];
+				btn2.innerText = k.question[2];
+				btn3.innerText = k.question[3];
+
+				switch(k.question[4]){
+					case 1:
+						btn1.value="true";
+						break;
+					case 2:
+						btn2.value="true";
+						break;
+					case 3:
+						btn3.value="true";
+				}
+				if (appCtrl.checkAnswer()) {
+					continue;
+				}
+			}
+
+			//question.innerText = q[0].question[0];
+
+			
+		},
+		nextQuestion:next = () => {
+			//some code
+		}
+		
+	}
+	
+
+})();
+
+init = () =>
+	{
 	let qList = [];
-	let randomList = [];
+	//let randomList = [];
 	let newQ;
 	
 	newQ = new Object();
@@ -17,20 +170,20 @@ const questionsCtrl = (() => {
 	newQ = new Object();
 	newQ.question = [
 		'What is the capital of Canada?',
-		'Ottawa',
 		'Washington',
+		'Ottawa',
 		'Mexico',
-		1
+		2
 	]
 	qList.push(newQ);
 
 	newQ = new Object();
 	newQ.question = [
 		'What is the capital of Italy?',
-		'Rome',
 		'Washington',
 		'Berlin',
-		1
+		'Rome',
+		3
 	]
 	qList.push(newQ);
 
@@ -47,55 +200,48 @@ const questionsCtrl = (() => {
 	newQ = new Object();
 	newQ.question = [
 		'What is the capital of Austria?',
-		'Vienna',
 		'Rome',
+		'Vienna',
 		'Mexico',
+		2
+	]
+	qList.push(newQ);
+
+	newQ = new Object();
+	newQ.question = [
+		'What is the capital of Ukraine?',
+		'Copenhagen',
+		'Vatican',
+		'Kyiv',
+		3
+	]
+	qList.push(newQ);
+
+	newQ = new Object();
+	newQ.question = [
+		'What is the capital of Danmark?',
+		'Copenhagen',
+		'Moscow',
+		'Helsinki',
+		1
+	]
+	qList.push(newQ);
+
+	newQ = new Object();
+	newQ.question = [
+		'What is the capital of Sweden?',
+		'Stockholm',
+		'Helsinki',
+		'Oslo',
 		1
 	]
 	qList.push(newQ);
 	
-	
 	localStorage.clear();
-	//return;
 	localStorage.setItem('ql',JSON.stringify(qList));
-	let kk = JSON.parse(localStorage.getItem('ql'));
-	return {
-		questionList: qList,
-		q2: kk
-	}
 
-})();
-
-
-const uiCtrl = (() => {
-
-	console.log(' uiCtrl started');
-	//some code
-})();
-
-
-const appCtrl = (() => {
-
-	//some code
-	console.log('appCtrl started');
-	return {
-		add: () => {
-			console.log('add');
-		}
-	}
-	
-
-})();
-
-init = () =>
-	{
-		
-		document.getElementById("start").addEventListener('click',function(){
-			console.log('quiz starts!');
-			document.getElementById('firstRow').className = "invisible";
-			document.getElementById('secondRow').className = "row py-4 text-center visible";
-			let timerInterval = setInterval(Timer,1000);
-		})
+	document.getElementById("start").addEventListener('click',appCtrl.startQuiz);
+			
 		//timer -= 1000;
 		//console.log(timer.getMinutes());
 		//console.log(timer.getTime());
@@ -103,28 +249,7 @@ init = () =>
 		//console.log(questions);
 	}
 
-Timer = () =>
-	{
-		//debugger;
-		let min = parseInt(document.getElementById('min').innerText);
-		let sec = parseInt(document.getElementById('sec').innerText);
-		if (min == 0 && sec == 0){
-			return;
-		}
-		let timeout = min*60*1000+sec*1000;
-		let timer = new Date();
-		timer.setTime(timeout);
-		timeout -=1000;
-		timer.setTime(timeout);
-		if (timeout < 10000){
-			document.getElementById('timeLeft').className = "font-weight-bold col-md-2 text-danger";
-		}
-		document.getElementById('min').innerText = timer.getMinutes(timeout);
-		document.getElementById('sec').innerText = timer.getSeconds(timeout);
-		
-		//console.log(timer.getMinutes());
-		
-	}
+
 
 init();
 //var x = JSON.stringify(questions[0]);
