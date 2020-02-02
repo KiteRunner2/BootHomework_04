@@ -17,18 +17,19 @@
         <div class="col-md-12 text-center py-4">
           <button type="button" class="btn btn-outline-primary" id="start">Start!</button>
         </div>
-        
       </div>
-      <div class="row py-4 text-center invisible" id="secondRow">
+      <div class="row text-center invisible" id="secondRow">
         <div id="timeLeft" class="col-md-2 text-primary">TIME LEFT: &nbsp;
-          <span id="min">0</span> : <span id="sec">15</span>
+          <span id="min">1</span> : <span id="sec">30</span>
         </div>
         
         <div class="col-md-8 text-primary">
           <div class="py-3" id="question">question goes here</div>
           <button type="button" id="btn1" value="" class="w-100 btn btn-outline-primary d-block" onclick="appCtrl.checkAnswer(1)">Answer no 1</button>
           <br><button type="button" id="btn2" value ="" class="w-100 btn btn-outline-primary d-block" onclick="appCtrl.checkAnswer(2)">Answer no 2</button>
-          <br><button type="button" id="btn3" value ="" class="w-100 btn btn-outline-primary d-block" onclick="appCtrl.checkAnswer(3)"">Answer no 3</button></div>
+          <br><button type="button" id="btn3" value ="" class="w-100 btn btn-outline-primary d-block" onclick="appCtrl.checkAnswer(3)"">Answer no 3</button>
+          <br><span id="answer"></span>
+        </div>
         <div class="col-md-2 text-primary py-4">RANKING</div>
       </div>
       

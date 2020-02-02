@@ -6,7 +6,7 @@ const questionsCtrl = (() => {
 		//debugger;
 		let qList = JSON.parse(localStorage.getItem('ql'));
 		let tmp = [];
-		for (let n=0;n<3;n++){
+		for (let n=0;n<5;n++){
 			let ran = Math.floor(Math.random()*qList.length);
 			let tmpItem = qList.splice(ran,1);
 			tmp.push(tmpItem);
@@ -43,7 +43,9 @@ const appCtrl = (() => {
 	let firstRow = document.getElementById('firstRow');
 	let secondRow = document.getElementById('secondRow');
 	let questionBox = document.getElementById('question');
+	let answerBox = document.getElementById('answer');
 	let questions = questionsCtrl.questionList();
+	let questionNo = 0;
 	//console.log('appCtrl module started...');
 	Timer = () =>
 	{
@@ -71,52 +73,59 @@ const appCtrl = (() => {
 	return {
 		checkAnswer:answer = (btn) => {
 			console.log('checking answer...');
+			//debugger;
 			switch(btn){
 				case 1:
 					if (btn1.value == "true"){
-						console.log('correct!');
-						return true;
+						answerBox.innerText = "Correct!";
+						break;
 					}	
 					else {
-						console.log('wrong answer!');
-						return true;
+						answerBox.innerText = "Wrong answer!";
+						break;
 					}
 					
 				case 2:
 					if (btn2.value == "true"){
-						console.log('correct!');
-						return true;
+						answerBox.innerText = "Correct!";
+						break;
 						
 					}
 					else {
-						console.log('wrong answer!');
-						return true;
+						answerBox.innerText = "Wrong answer!";
+						break;
 					}
 					
 				case 3:
 					if (btn3.value == "true"){
-						console.log('correct!');
-						return true;
+						answerBox.innerText = "Correct!";
+						break;
 					}
 					else {
-						console.log('wrong answer!');
-						return true;
+						answerBox.innerText = "Wrong answer!";
+						break;
 					}
-
 			}
-			
+			appCtrl.nextQuestion(questionNo);
 		},
 		startQuiz:quiz = () => {
 			console.log('starting quiz');
 			firstRow.className = "invisible";
 			secondRow.className = "row py-4 text-center visible";
-			
-			
 			//console.log(questions.length);
 			//console.log(k.question[0]);
 			let timerInterval = setInterval(Timer,1000);
-			for ( let n=0;n<questions.length;n++ ){
+			//question.innerText = q[0].question[0];
+			appCtrl.nextQuestion(questionNo);
+		},
+		nextQuestion:next = (n) => {
+			//some code
 				//debugger;
+				if (n == questions.length){
+					console.log('end of questions! Ending game...');
+					answerBox.innerText = 'End of game!';
+					return;
+				}
 				let k = questions[n][0];
 				questionBox.innerText = k.question[0];
 				btn1.innerText = k.question[1];
@@ -133,17 +142,8 @@ const appCtrl = (() => {
 					case 3:
 						btn3.value="true";
 				}
-				if (appCtrl.checkAnswer()) {
-					continue;
-				}
-			}
-
-			//question.innerText = q[0].question[0];
-
-			
-		},
-		nextQuestion:next = () => {
-			//some code
+				questionNo++;
+				
 		}
 		
 	}
