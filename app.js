@@ -1,38 +1,25 @@
-//code goes here
 const questionsCtrl = (() => {
 	console.log('questionCtrl module started...')
 		
-	genQuestions = () => {
+	getQuestions = (n) => {
 		//debugger;
 		let qList = JSON.parse(localStorage.getItem('ql'));
-		let tmp = [];
-		for (let n=0;n<5;n++){
+		let qArray = [];
+		for (let k=0;k<n;k++){
 			let ran = Math.floor(Math.random()*qList.length);
 			let tmpItem = qList.splice(ran,1);
-			tmp.push(tmpItem);
+			qArray.push(tmpItem);
 		}
-		return tmp;
+		return qArray;
 	}
-	//debugger;
-	
-	
+		
 	return {
 		
-		questionList: genQuestions
-		//aa:qList
+		questionList: getQuestions
 	}
 
 })();
 
-
-const uiCtrl = (() => {
-	//debugger;
-	
-	//console.log('uiCtrl module started...');
-	//console.log(q);
-	//some code
-	
-})();
 
 
 const appCtrl = (() => {
@@ -44,16 +31,20 @@ const appCtrl = (() => {
 	let secondRow = document.getElementById('secondRow');
 	let questionBox = document.getElementById('question');
 	let answerBox = document.getElementById('answer');
-	let questions = questionsCtrl.questionList();
+	let questions = questionsCtrl.questionList(5);
+	let scoreBox = document.getElementById('score');
 	let questionNo = 0;
-	//console.log('appCtrl module started...');
+	let score = 0;
+	
 	Timer = () =>
 	{
 		//debugger;
 		let min = parseInt(document.getElementById('min').innerText);
 		let sec = parseInt(document.getElementById('sec').innerText);
 		if (min == 0 && sec == 0){
-			return -1;
+			return {
+				end:-1
+			}
 		}
 		let timeout = min*60*1000+sec*1000;
 		let timer = new Date();
@@ -65,9 +56,11 @@ const appCtrl = (() => {
 		}
 		document.getElementById('min').innerText = timer.getMinutes(timeout);
 		document.getElementById('sec').innerText = timer.getSeconds(timeout);
-		return timeout;
+		return {
+			end:timeout
+		}
 		
-		//console.log(timer.getMinutes());
+		
 		
 	}
 	return {
@@ -77,7 +70,8 @@ const appCtrl = (() => {
 			switch(btn){
 				case 1:
 					if (btn1.value == "true"){
-						answerBox.innerText = "Correct!";
+						answerBox.innerText = "Correct answer!";
+						score++;
 						break;
 					}	
 					else {
@@ -87,7 +81,8 @@ const appCtrl = (() => {
 					
 				case 2:
 					if (btn2.value == "true"){
-						answerBox.innerText = "Correct!";
+						answerBox.innerText = "Correct answer!";
+						score++;
 						break;
 						
 					}
@@ -98,7 +93,8 @@ const appCtrl = (() => {
 					
 				case 3:
 					if (btn3.value == "true"){
-						answerBox.innerText = "Correct!";
+						answerBox.innerText = "Correct answer!";
+						score++;
 						break;
 					}
 					else {
@@ -106,24 +102,21 @@ const appCtrl = (() => {
 						break;
 					}
 			}
+			scoreBox.innerText = score;
 			appCtrl.nextQuestion(questionNo);
 		},
 		startQuiz:quiz = () => {
 			console.log('starting quiz');
 			firstRow.className = "invisible";
 			secondRow.className = "row py-4 text-center visible";
-			//console.log(questions.length);
-			//console.log(k.question[0]);
 			let timerInterval = setInterval(Timer,1000);
-			//question.innerText = q[0].question[0];
 			appCtrl.nextQuestion(questionNo);
 		},
 		nextQuestion:next = (n) => {
-			//some code
-				//debugger;
-				if (n == questions.length){
+			
+				if (n == questions.length || Timer.end == -1){
 					console.log('end of questions! Ending game...');
-					answerBox.innerText = 'End of game!';
+					answerBox.innerText = 'End of QUIZ!';
 					return;
 				}
 				let k = questions[n][0];
@@ -131,7 +124,9 @@ const appCtrl = (() => {
 				btn1.innerText = k.question[1];
 				btn2.innerText = k.question[2];
 				btn3.innerText = k.question[3];
-
+				btn1.value = "";
+				btn2.value = "";
+				btn3.value = "";
 				switch(k.question[4]){
 					case 1:
 						btn1.value="true";
@@ -252,6 +247,13 @@ init = () =>
 
 
 init();
+
+
+
+
+
+
+
 //var x = JSON.stringify(questions[0]);
 //console.log(x);
 //Timer();
