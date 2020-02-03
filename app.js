@@ -29,18 +29,22 @@ const appCtrl = (() => {
 	let btn3 = document.getElementById('btn3');
 	let firstRow = document.getElementById('firstRow');
 	let secondRow = document.getElementById('secondRow');
+	let thirdRow = document.getElementById('thirdRow');
 	let questionBox = document.getElementById('question');
 	let answerBox = document.getElementById('answer');
-	let questions = questionsCtrl.questionList(5);
+	let questions;
 	let scoreBox = document.getElementById('score');
 	let questionNo = 0;
 	let score = 0;
+	let minBox = document.getElementById('min');
+	let secBox = document.getElementById('sec');
+	let timerInterval;
 	
 	Timer = () =>
 	{
 		//debugger;
-		let min = parseInt(document.getElementById('min').innerText);
-		let sec = parseInt(document.getElementById('sec').innerText);
+		let min = parseInt(minBox.innerText);
+		let sec = parseInt(secBox.innerText);
 		if (min == 0 && sec == 0){
 			return {
 				end:-1
@@ -54,8 +58,8 @@ const appCtrl = (() => {
 		if (timeout < 10000){
 			document.getElementById('timeLeft').className = "font-weight-bold col-md-2 text-danger";
 		}
-		document.getElementById('min').innerText = timer.getMinutes(timeout);
-		document.getElementById('sec').innerText = timer.getSeconds(timeout);
+		minBox.innerText = timer.getMinutes(timeout);
+		secBox.innerText = timer.getSeconds(timeout);
 		return {
 			end:timeout
 		}
@@ -107,9 +111,15 @@ const appCtrl = (() => {
 		},
 		startQuiz:quiz = () => {
 			console.log('starting quiz');
-			firstRow.className = "invisible";
-			secondRow.className = "row py-4 text-center visible";
-			let timerInterval = setInterval(Timer,1000);
+			firstRow.classList.toggle("invisible");
+			secondRow.classList.toggle("invisible");
+			minBox.innerText = 0;
+			secBox.innerText = 30;
+			scoreBox.innerText = 0;
+			score=0;
+			timerInterval = setInterval(Timer,1000);
+			questions = questionsCtrl.questionList(5);
+			questionNo = 0;
 			appCtrl.nextQuestion(questionNo);
 		},
 		nextQuestion:next = (n) => {
@@ -117,6 +127,10 @@ const appCtrl = (() => {
 				if (n == questions.length || Timer.end == -1){
 					console.log('end of questions! Ending game...');
 					answerBox.innerText = 'End of QUIZ!';
+					thirdRow.classList.toggle("invisible");
+					firstRow.classList.toggle("invisible");
+					secondRow.classList.toggle("invisible");
+					clearInterval(timerInterval);
 					return;
 				}
 				let k = questions[n][0];
@@ -149,7 +163,6 @@ const appCtrl = (() => {
 init = () =>
 	{
 	let qList = [];
-	//let randomList = [];
 	let newQ;
 	
 	newQ = new Object();
@@ -236,6 +249,7 @@ init = () =>
 	localStorage.setItem('ql',JSON.stringify(qList));
 
 	document.getElementById("start").addEventListener('click',appCtrl.startQuiz);
+	questionNo = 0;
 			
 		//timer -= 1000;
 		//console.log(timer.getMinutes());
