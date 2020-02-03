@@ -1,9 +1,9 @@
 const questionsCtrl = (() => {
-	console.log('questionCtrl module started...')
-		
+	console.log('questionCtrl module started...');
+	let qList = JSON.parse(localStorage.getItem('ql'));	
 	getQuestions = (n) => {
 		//debugger;
-		let qList = JSON.parse(localStorage.getItem('ql'));
+		qList = JSON.parse(localStorage.getItem('ql'));
 		let qArray = [];
 		for (let k=0;k<n;k++){
 			let ran = Math.floor(Math.random()*qList.length);
@@ -12,10 +12,39 @@ const questionsCtrl = (() => {
 		}
 		return qArray;
 	}
+
+	getFame = () => {
+		let list = JSON.parse(localStorage.getItem('fame'));
+		let fameBox1 = document.getElementById('fame-name1');
+		let fameScore1 = document.getElementById('fame-score1');
+		let fameBox2 = document.getElementById('fame-name2');
+		let fameScore2 = document.getElementById('fame-score2');
+		let fameBox3 = document.getElementById('fame-name3');
+		let fameScore3 = document.getElementById('fame-score3');
+		fameBox1.innerText = list[0].name;
+		fameScore1.innerText = list[0].score;
+		fameBox2.innerText = list[1].name;
+		fameScore2.innerText = list[1].score;
+		fameBox3.innerText = list[2].name;
+		fameScore3.innerText = list[2].score;
+		//return list;
+	}
+
+	addFame = (name,score) => {
+		let list = JSON.parse(localStorage.getItem('fame'));
+		let newPerson = new Object();
+		newPerson.name = name;
+		newPerson.score = score;
+		list.push(newPerson);
+		localStorage.setItem('fame',JSON.stringify(list));
+	}
 		
 	return {
 		
-		questionList: getQuestions
+		questionList: getQuestions,
+		noOfQuestions: qList.length,
+		ranks:getFame,
+		setFame:addFame
 	}
 
 })();
@@ -122,9 +151,10 @@ const appCtrl = (() => {
 			secBox.innerText = 30;
 			scoreBox.innerText = 0;
 			score=0;
+			questionsCtrl.ranks();
 			clearInterval(timerInterval);
 			timerInterval = setInterval(Timer,1000);
-			questions = questionsCtrl.questionList(7);
+			questions = questionsCtrl.questionList(questionsCtrl.noOfQuestions);
 			questionNo = 0;
 			appCtrl.nextQuestion(questionNo);
 		},
@@ -173,6 +203,27 @@ const appCtrl = (() => {
 
 init = () =>
 	{
+	localStorage.clear();
+
+	let HoF = [];
+	let newPerson;
+	newPerson = new Object();
+	newPerson.name = 'Master';
+	newPerson.score = 15;
+	HoF.push(newPerson);
+
+	newPerson = new Object();
+	newPerson.name = 'BeatMe';
+	newPerson.score = 20;
+	HoF.push(newPerson);
+
+	newPerson = new Object();
+	newPerson.name = 'Kiss Me';
+	newPerson.score = 50;
+	HoF.push(newPerson);
+
+	localStorage.setItem('fame',JSON.stringify(HoF));
+
 	let qList = [];
 	let newQ;
 	
@@ -285,8 +336,97 @@ init = () =>
 		3
 	]
 	qList.push(newQ);
+
+	newQ = new Object();
+	newQ.question = [
+		'What is the capital of France?',
+		'Stockholm',
+		'Helsinki',
+		'Moscow',
+		'Paris',
+		4
+	]
+	qList.push(newQ);
+
+	newQ = new Object();
+	newQ.question = [
+		'What is the capital of Czechia?',
+		'Stockholm',
+		'Prague',
+		'Moscow',
+		'Paris',
+		2
+	]
+	qList.push(newQ);
+
+	newQ = new Object();
+	newQ.question = [
+		'What is the capital of Afghanistan?',
+		'Herat',
+		'Prague',
+		'Kabul',
+		'Paris',
+		3
+	]
+	qList.push(newQ);
+
+	newQ = new Object();
+	newQ.question = [
+		'What is the capital of Albania?',
+		'Algiers',
+		'Luanda',
+		'Tirana',
+		'Yerevan',
+		3
+	]
+	qList.push(newQ);
+
+	newQ = new Object();
+	newQ.question = [
+		'What is the capital of Algeria?',
+		'Luanda',
+		'Algiers',
+		'Kabul',
+		'Manama',
+		2
+	]
+	qList.push(newQ);
+
+	newQ = new Object();
+	newQ.question = [
+		'What is the capital of Angola?',
+		'Dhaka',
+		'Belmopan',
+		'Luanda',
+		'Tirana',
+		3
+	]
+	qList.push(newQ);
+
+	newQ = new Object();
+	newQ.question = [
+		'What is the capital of Argentina?',
+		'Brasil',
+		'Belmopan',
+		'Luanda',
+		'Buenos Aires',
+		4
+	]
+	qList.push(newQ);
+
+	newQ = new Object();
+	newQ.question = [
+		'What is the capital of Australia?',
+		'Sydney',
+		'Belmopan',
+		'Canberra',
+		'Buenos Aires',
+		3
+	]
+	qList.push(newQ);
 	
-	localStorage.clear();
+	
+	
 	localStorage.setItem('ql',JSON.stringify(qList));
 
 	document.getElementById("start").addEventListener('click',appCtrl.startQuiz);
@@ -302,72 +442,3 @@ init = () =>
 
 
 init();
-
-
-
-
-
-
-
-//var x = JSON.stringify(questions[0]);
-//console.log(x);
-//Timer();
-
-
-/*
-	newQ.set('question','What is the capital of Poland?');
-	newQ.set(true,'Correct!');
-	newQ.set(1,'Warsaw');
-	newQ.set(2,'Berlin');
-	newQ.set(3,'Moscow');
-	qList.push(newQ);
-
-	newQ = new Map();
-	newQ.set('question','What is the capital of Canada?');
-	newQ.set(true,'Correct!');
-	newQ.set(1,'Ottawa');
-	newQ.set(2,'Washington');
-	newQ.set(3,'Mexico');
-	qList.push(newQ);
-
-	newQ = new Map();
-	newQ.set('question','What is the capital of Italy?');
-	newQ.set(true,'Correct!');
-	newQ.set(1,'Rome');
-	newQ.set(2,'Prague');
-	newQ.set(3,'Warsaw');
-	qList.push(newQ);
-
-	newQ = new Map();
-	newQ.set('question','What is the capital of Germany?');
-	newQ.set(true,'Correct!');
-	newQ.set(1,'Berlin');
-	newQ.set(2,'Helsinki');
-	newQ.set(3,'Mexico');
-	qList.push(newQ);
-
-	newQ = new Map();
-	newQ.set('question','What is the capital of Austria?');
-	newQ.set(true,'Correct!');
-	newQ.set(1,'Vienna');
-	newQ.set(2,'Copenhagen');
-	newQ.set(3,'Mexico');
-	qList.push(newQ);
-	//debugger;
-
-	let i = [1,2,3];
-	localStorage.setItem('q',JSON.stringify(i));
-	localStorage.setItem('b','hello');
-	//let tmp;
-	//tmp = new Object();
-	//tmp = qList;
-
-	for (let n=0;n<=2;n++){
-		let ran = Math.floor(Math.random()*qList.length);
-		let tmpItem = qList.splice(ran,1);
-		randomList.push(tmpItem);
-		//console.log(tmpItem);
-	}
-	qList = Object.assign(qList,tmp);
-
-	*/
