@@ -74,12 +74,14 @@ const appCtrl = (() => {
 	let scoreBox = document.getElementById('score');
 	let minBox = document.getElementById('min');
 	let secBox = document.getElementById('sec');
+	let timeLeftBox = document.getElementById('timeLeft');
 	let questions;
+	let penalty = 0;
 	let questionNo = 0;
 	let score = 0;
 	let timerInterval;
 	//timer function to control timeout and display
-	Timer = () => {
+	Timer = (penalty=0) => {
 		//debugger;
 		let min = parseInt(minBox.innerText);
 		let sec = parseInt(secBox.innerText);
@@ -93,9 +95,10 @@ const appCtrl = (() => {
 		let timer = new Date();
 		timer.setTime(timeout);
 		timeout -= 1000;
+		timeout -= penalty;
 		timer.setTime(timeout);
 		if (timeout < 10000) {
-			document.getElementById('timeLeft').className = "font-weight-bold col-md-2 text-danger";
+			timeLeftBox.className = "font-weight-bold col-md-2 text-danger";
 		}
 		minBox.innerText = timer.getMinutes(timeout);
 		secBox.innerText = timer.getSeconds(timeout);
@@ -109,40 +112,60 @@ const appCtrl = (() => {
 			switch (btn) {
 				case 1:
 					if (btn1.value == "true") {
+						answerBox.classList.add('text-success');
+						answerBox.classList.remove('text-danger');
 						answerBox.innerText = "Correct answer!";
 						score++;
 						break;
 					} else {
+						answerBox.classList.add('text-danger');
+						answerBox.classList.remove('text-success');
 						answerBox.innerText = "Wrong answer!";
+						penalty=5000;
 						break;
 					}
 
 				case 2:
 					if (btn2.value == "true") {
+						answerBox.classList.add('text-success');
+						answerBox.classList.remove('text-danger');
 						answerBox.innerText = "Correct answer!";
 						score++;
 						break;
 					} else {
+						answerBox.classList.add('text-danger');
+						answerBox.classList.remove('text-success');
 						answerBox.innerText = "Wrong answer!";
+						penalty=5000;
 						break;
 					}
 
 				case 3:
 					if (btn3.value == "true") {
+						answerBox.classList.add('text-success');
+						answerBox.classList.remove('text-danger');
 						answerBox.innerText = "Correct answer!";
 						score++;
 						break;
 					} else {
+						answerBox.classList.add('text-danger');
+						answerBox.classList.remove('text-success');
 						answerBox.innerText = "Wrong answer!";
+						penalty=5000;
 						break;
 					}
 				case 4:
 					if (btn4.value == "true") {
+						answerBox.classList.add('text-success');
+						answerBox.classList.remove('text-danger');
 						answerBox.innerText = "Correct answer!";
 						score++;
 						break;
 					} else {
+						answerBox.classList.add('text-danger');
+						answerBox.classList.remove('text-success');
 						answerBox.innerText = "Wrong answer!";
+						penalty=5000;
 						break;
 					}
 			}
@@ -154,6 +177,7 @@ const appCtrl = (() => {
 			console.log('starting quiz');
 			firstRow.classList.toggle("invisible");
 			secondRow.classList.toggle("invisible");
+			timeLeftBox.className = "col-md-2 text-primary";
 			minBox.innerText = 1;
 			secBox.innerText = 30;
 			scoreBox.innerText = 0;
