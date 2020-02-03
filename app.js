@@ -9,7 +9,7 @@ Choose correct capital of the country
 */
 
 const dataCtrl = (() => {
-	console.log('questionCtrl module started...');
+	console.log('dataCtrl module started...');
 	let qList = JSON.parse(localStorage.getItem('ql'));
 	//returns questions list in random order from all questions
 	getQuestions = (n) => {
@@ -461,7 +461,7 @@ init = () => {
 
 	document.getElementById("start").addEventListener('click', appCtrl.startQuiz);
 	questionNo = 0;
-
+	console.log('init done...');
 }
 
 init();
