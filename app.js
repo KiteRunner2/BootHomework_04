@@ -10,15 +10,15 @@ Choose correct capital of the country
 
 const dataCtrl = (() => {
 	console.log('questionCtrl module started...');
-	let qList = JSON.parse(localStorage.getItem('ql'));	
+	let qList = JSON.parse(localStorage.getItem('ql'));
 	//returns questions list in random order from all questions
 	getQuestions = (n) => {
 		//debugger;
 		qList = JSON.parse(localStorage.getItem('ql'));
 		let qArray = [];
-		for (let k=0;k<n;k++){
-			let ran = Math.floor(Math.random()*qList.length);
-			let tmpItem = qList.splice(ran,1);
+		for (let k = 0; k < n; k++) {
+			let ran = Math.floor(Math.random() * qList.length);
+			let tmpItem = qList.splice(ran, 1);
 			qArray.push(tmpItem);
 		}
 		return qArray;
@@ -41,21 +41,21 @@ const dataCtrl = (() => {
 		//return list;
 	}
 	//adds new name to hall of fame
-	addFame = (name,score) => {
+	addFame = (name, score) => {
 		let list = JSON.parse(localStorage.getItem('fame'));
 		let newPerson = new Object();
 		newPerson.name = name;
 		newPerson.score = score;
 		list.push(newPerson);
-		localStorage.setItem('fame',JSON.stringify(list));
+		localStorage.setItem('fame', JSON.stringify(list));
 	}
-		
+
 	return {
-		
+
 		questionList: getQuestions,
 		noOfQuestions: qList.length,
-		ranks:getFame,
-		setFame:addFame
+		ranks: getFame,
+		setFame: addFame
 	}
 
 })();
@@ -79,23 +79,22 @@ const appCtrl = (() => {
 	let score = 0;
 	let timerInterval;
 	//timer function to control timeout and display
-	Timer = () =>
-	{
+	Timer = () => {
 		//debugger;
 		let min = parseInt(minBox.innerText);
 		let sec = parseInt(secBox.innerText);
-		if (min == 0 && sec == 0){
+		if (min == 0 && sec == 0) {
 			answerBox.innerText = 'Time out!';
 			secondRow.classList.toggle("invisible");
 			firstRow.classList.toggle("invisible");
 			return;
 		}
-		let timeout = min*60*1000+sec*1000;
+		let timeout = min * 60 * 1000 + sec * 1000;
 		let timer = new Date();
 		timer.setTime(timeout);
-		timeout -=1000;
+		timeout -= 1000;
 		timer.setTime(timeout);
-		if (timeout < 10000){
+		if (timeout < 10000) {
 			document.getElementById('timeLeft').className = "font-weight-bold col-md-2 text-danger";
 		}
 		minBox.innerText = timer.getMinutes(timeout);
@@ -104,120 +103,114 @@ const appCtrl = (() => {
 
 	return {
 		//checking if answer is correct and pushing next question
-		checkAnswer:answer = (btn) => {
+		checkAnswer: answer = (btn) => {
 			console.log('checking answer...');
 			//debugger;
-			switch(btn){
+			switch (btn) {
 				case 1:
-					if (btn1.value == "true"){
+					if (btn1.value == "true") {
 						answerBox.innerText = "Correct answer!";
 						score++;
 						break;
-					}	
-					else {
+					} else {
 						answerBox.innerText = "Wrong answer!";
 						break;
 					}
-					
+
 				case 2:
-					if (btn2.value == "true"){
+					if (btn2.value == "true") {
 						answerBox.innerText = "Correct answer!";
 						score++;
 						break;
-						
-					}
-					else {
+					} else {
 						answerBox.innerText = "Wrong answer!";
 						break;
 					}
-					
+
 				case 3:
-					if (btn3.value == "true"){
+					if (btn3.value == "true") {
 						answerBox.innerText = "Correct answer!";
 						score++;
 						break;
-					}
-					else {
+					} else {
 						answerBox.innerText = "Wrong answer!";
 						break;
 					}
 				case 4:
-					if (btn4.value == "true"){
+					if (btn4.value == "true") {
 						answerBox.innerText = "Correct answer!";
 						score++;
 						break;
-					}
-					else {
+					} else {
 						answerBox.innerText = "Wrong answer!";
 						break;
-					}		
+					}
 			}
 			scoreBox.innerText = score;
 			appCtrl.nextQuestion(questionNo);
 		},
 		//startup function of the quiz
-		startQuiz:quiz = () => {
+		startQuiz: quiz = () => {
 			console.log('starting quiz');
 			firstRow.classList.toggle("invisible");
 			secondRow.classList.toggle("invisible");
 			minBox.innerText = 1;
 			secBox.innerText = 30;
 			scoreBox.innerText = 0;
-			score=0;
+			score = 0;
 			dataCtrl.ranks();
 			clearInterval(timerInterval);
-			timerInterval = setInterval(Timer,1000);
+			timerInterval = setInterval(Timer, 1000);
 			questions = dataCtrl.questionList(dataCtrl.noOfQuestions);
 			questionNo = 0;
 			appCtrl.nextQuestion(questionNo);
 		},
 		//checking if questions finished, displaying questions, setting buttons values
-		nextQuestion:next = (n) => {
-			
-				if (n == questions.length){
-					console.log('end of questions! Ending game...');
-					answerBox.innerText = 'End of QUIZ!';
-					thirdRow.classList.toggle("invisible");
-					firstRow.classList.toggle("invisible");
-					secondRow.classList.toggle("invisible");
-					clearInterval(timerInterval);
-					return;
-				}
-				let k = questions[n][0];
-				questionBox.innerText = k.question[0];
-				btn1.innerText = k.question[1];
-				btn2.innerText = k.question[2];
-				btn3.innerText = k.question[3];
-				btn4.innerText = k.question[4];
-				btn1.value = "";
-				btn2.value = "";
-				btn3.value = "";
-				btn4.value = "";
-				switch(k.question[5]){
-					case 1:
-						btn1.value="true";
-						break;
-					case 2:
-						btn2.value="true";
-						break;
-					case 3:
-						btn3.value="true";
-						break;
-					case 4:
-						btn4.value="true";
-				}
-				questionNo++;
-				
+		nextQuestion: next = (n) => {
+
+			if (n == questions.length) {
+				console.log('end of questions! Ending game...');
+				answerBox.innerText = 'End of QUIZ!';
+				thirdRow.classList.toggle("invisible");
+				firstRow.classList.toggle("invisible");
+				secondRow.classList.toggle("invisible");
+				clearInterval(timerInterval);
+				return;
+			}
+			let k = questions[n][0];
+			questionBox.innerText = k.question[0];
+			btn1.innerText = k.question[1];
+			btn2.innerText = k.question[2];
+			btn3.innerText = k.question[3];
+			btn4.innerText = k.question[4];
+			btn1.value = "";
+			btn2.value = "";
+			btn3.value = "";
+			btn4.value = "";
+			switch (k.question[5]) {
+				case 1:
+					btn1.value = "true";
+					break;
+				case 2:
+					btn2.value = "true";
+					break;
+				case 3:
+					btn3.value = "true";
+					break;
+				case 4:
+					btn4.value = "true";
+			}
+			questionNo++;
+
 		}
-		
+
 	}
 })();
 //init function, clearing local storage
 //building question list
 //building initial hall of fame list
 //adding event listneres
-init = () =>
-	{
+init = () => {
 	localStorage.clear();
 
 	let HoF = [];
@@ -237,11 +230,11 @@ init = () =>
 	newPerson.score = 50;
 	HoF.push(newPerson);
 
-	localStorage.setItem('fame',JSON.stringify(HoF));
+	localStorage.setItem('fame', JSON.stringify(HoF));
 
 	let qList = [];
 	let newQ;
-	
+
 	newQ = new Object();
 	newQ.question = [
 		'What is the capital of Poland?',
@@ -439,12 +432,12 @@ init = () =>
 		3
 	]
 	qList.push(newQ);
-	
-	localStorage.setItem('ql',JSON.stringify(qList));
 
-	document.getElementById("start").addEventListener('click',appCtrl.startQuiz);
+	localStorage.setItem('ql', JSON.stringify(qList));
+
+	document.getElementById("start").addEventListener('click', appCtrl.startQuiz);
 	questionNo = 0;
-			
-	}
+
+}
 
 init();
