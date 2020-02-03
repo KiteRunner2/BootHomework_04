@@ -312,13 +312,17 @@ const appCtrl = (() => {
 	let questionNo = 0;
 	let score = 0;
 	let timerInterval;
+
+	Penalty = () => {
+		secBox.innerText = parseInt(secBox.innerText) - 5;
+	}
 	//timer function to control timeout and display
 	Timer = () => {
-		debugger;
+		//debugger;
 		//et min = parseInt(minBox.innerText);
 		let sec = parseInt(secBox.innerText);
 		//let sec = parseInt(minBox.value);
-		if (sec == 0) {
+		if (sec <= 0) {
 			answerBox.innerText = 'Time out!';
 			secondRow.classList.toggle("invisible");
 			firstRow.classList.toggle("invisible");
@@ -355,7 +359,7 @@ const appCtrl = (() => {
 						answerBox.classList.add('text-danger');
 						answerBox.classList.remove('text-success');
 						answerBox.innerText = "Wrong answer!";
-						penalty=5000;
+						Penalty();
 						break;
 					}
 
@@ -370,7 +374,7 @@ const appCtrl = (() => {
 						answerBox.classList.add('text-danger');
 						answerBox.classList.remove('text-success');
 						answerBox.innerText = "Wrong answer!";
-						penalty=5000;
+						Penalty();
 						break;
 					}
 
@@ -385,7 +389,7 @@ const appCtrl = (() => {
 						answerBox.classList.add('text-danger');
 						answerBox.classList.remove('text-success');
 						answerBox.innerText = "Wrong answer!";
-						penalty=5000;
+						Penalty();
 						break;
 					}
 				case 4:
@@ -399,7 +403,7 @@ const appCtrl = (() => {
 						answerBox.classList.add('text-danger');
 						answerBox.classList.remove('text-success');
 						answerBox.innerText = "Wrong answer!";
-						penalty=5000;
+						Penalty();
 						break;
 					}
 			}
@@ -412,8 +416,9 @@ const appCtrl = (() => {
 			firstRow.classList.toggle("invisible");
 			secondRow.classList.toggle("invisible");
 			timeLeftBox.className = "col-md-2 text-primary";
+			answerBox.innerText = '';
 			//minBox.innerText = 1;
-			secBox.innerText = 90;
+			secBox.innerText = 60;
 			scoreBox.innerText = 0;
 			score = 0;
 			dataCtrl.ranks();
