@@ -82,7 +82,7 @@ const appCtrl = (() => {
 	let timerInterval;
 	//timer function to control timeout and display
 	Timer = (penalty=0) => {
-		//debugger;
+		debugger;
 		let min = parseInt(minBox.innerText);
 		let sec = parseInt(secBox.innerText);
 		if (min == 0 && sec == 0) {
