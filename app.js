@@ -2,6 +2,9 @@
 Choose correct capital of the country
 */
 
+//data intitiation function
+// loading questions data and answers
+//loading hall of fame dummy names
 (initData = () => {
 	localStorage.clear();
 
@@ -303,33 +306,36 @@ const appCtrl = (() => {
 	let minBox = document.getElementById('min');
 	let secBox = document.getElementById('sec');
 	let timeLeftBox = document.getElementById('timeLeft');
+	//let countdownBox  = document.getElementById('countdown');
 	let questions;
-	let penalty = 0;
+	//let penalty = 0;
 	let questionNo = 0;
 	let score = 0;
 	let timerInterval;
 	//timer function to control timeout and display
-	Timer = (penalty=0) => {
-		//debugger;
-		let min = parseInt(minBox.innerText);
+	Timer = () => {
+		debugger;
+		//et min = parseInt(minBox.innerText);
 		let sec = parseInt(secBox.innerText);
-		if (min == 0 && sec == 0) {
+		//let sec = parseInt(minBox.value);
+		if (sec == 0) {
 			answerBox.innerText = 'Time out!';
 			secondRow.classList.toggle("invisible");
 			firstRow.classList.toggle("invisible");
 			return;
 		}
-		let timeout = min * 60 * 1000 + sec * 1000;
+		let timeout = sec * 1000;
 		let timer = new Date();
 		timer.setTime(timeout);
 		timeout -= 1000;
-		timeout -= penalty;
+		//timeout -= penalty;
 		timer.setTime(timeout);
 		if (timeout < 10000) {
 			timeLeftBox.className = "font-weight-bold col-md-2 text-danger";
 		}
-		minBox.innerText = timer.getMinutes(timeout);
-		secBox.innerText = timer.getSeconds(timeout);
+		//minBox.innerText = timer.getMinutes(timeout);
+		secBox.innerText = timer.getMinutes(timeout)*60  + timer.getSeconds(timeout);
+		//countdownBox.value = timer.getSeconds(timeout);
 	}
 
 	return {
@@ -406,8 +412,8 @@ const appCtrl = (() => {
 			firstRow.classList.toggle("invisible");
 			secondRow.classList.toggle("invisible");
 			timeLeftBox.className = "col-md-2 text-primary";
-			minBox.innerText = 1;
-			secBox.innerText = 30;
+			//minBox.innerText = 1;
+			secBox.innerText = 90;
 			scoreBox.innerText = 0;
 			score = 0;
 			dataCtrl.ranks();
