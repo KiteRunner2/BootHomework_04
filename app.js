@@ -20,13 +20,12 @@ const questionsCtrl = (() => {
 
 })();
 
-
-
 const appCtrl = (() => {
 
 	let btn1 = document.getElementById('btn1');
 	let btn2 = document.getElementById('btn2');
 	let btn3 = document.getElementById('btn3');
+	let btn4 = document.getElementById('btn4');
 	let firstRow = document.getElementById('firstRow');
 	let secondRow = document.getElementById('secondRow');
 	let thirdRow = document.getElementById('thirdRow');
@@ -46,9 +45,10 @@ const appCtrl = (() => {
 		let min = parseInt(minBox.innerText);
 		let sec = parseInt(secBox.innerText);
 		if (min == 0 && sec == 0){
-			return {
-				end:-1
-			}
+			answerBox.innerText = 'Time out!';
+			secondRow.classList.toggle("invisible");
+			firstRow.classList.toggle("invisible");
+			return;
 		}
 		let timeout = min*60*1000+sec*1000;
 		let timer = new Date();
@@ -60,13 +60,8 @@ const appCtrl = (() => {
 		}
 		minBox.innerText = timer.getMinutes(timeout);
 		secBox.innerText = timer.getSeconds(timeout);
-		return {
-			end:timeout
-		}
-		
-		
-		
 	}
+
 	return {
 		checkAnswer:answer = (btn) => {
 			console.log('checking answer...');
@@ -105,6 +100,16 @@ const appCtrl = (() => {
 						answerBox.innerText = "Wrong answer!";
 						break;
 					}
+				case 4:
+					if (btn4.value == "true"){
+						answerBox.innerText = "Correct answer!";
+						score++;
+						break;
+					}
+					else {
+						answerBox.innerText = "Wrong answer!";
+						break;
+					}		
 			}
 			scoreBox.innerText = score;
 			appCtrl.nextQuestion(questionNo);
@@ -113,18 +118,19 @@ const appCtrl = (() => {
 			console.log('starting quiz');
 			firstRow.classList.toggle("invisible");
 			secondRow.classList.toggle("invisible");
-			minBox.innerText = 0;
+			minBox.innerText = 1;
 			secBox.innerText = 30;
 			scoreBox.innerText = 0;
 			score=0;
+			clearInterval(timerInterval);
 			timerInterval = setInterval(Timer,1000);
-			questions = questionsCtrl.questionList(5);
+			questions = questionsCtrl.questionList(7);
 			questionNo = 0;
 			appCtrl.nextQuestion(questionNo);
 		},
 		nextQuestion:next = (n) => {
 			
-				if (n == questions.length || Timer.end == -1){
+				if (n == questions.length){
 					console.log('end of questions! Ending game...');
 					answerBox.innerText = 'End of QUIZ!';
 					thirdRow.classList.toggle("invisible");
@@ -138,10 +144,12 @@ const appCtrl = (() => {
 				btn1.innerText = k.question[1];
 				btn2.innerText = k.question[2];
 				btn3.innerText = k.question[3];
+				btn4.innerText = k.question[4];
 				btn1.value = "";
 				btn2.value = "";
 				btn3.value = "";
-				switch(k.question[4]){
+				btn4.value = "";
+				switch(k.question[5]){
 					case 1:
 						btn1.value="true";
 						break;
@@ -150,6 +158,9 @@ const appCtrl = (() => {
 						break;
 					case 3:
 						btn3.value="true";
+						break;
+					case 4:
+						btn4.value="true";
 				}
 				questionNo++;
 				
@@ -171,6 +182,7 @@ init = () =>
 		'Warsaw',
 		'Berlin',
 		'Moscow',
+		'Cracow',
 		1
 	]
 	qList.push(newQ);
@@ -180,6 +192,7 @@ init = () =>
 		'What is the capital of Canada?',
 		'Washington',
 		'Ottawa',
+		'Toronto',
 		'Mexico',
 		2
 	]
@@ -191,6 +204,7 @@ init = () =>
 		'Washington',
 		'Berlin',
 		'Rome',
+		'Milan',
 		3
 	]
 	qList.push(newQ);
@@ -201,6 +215,7 @@ init = () =>
 		'Berlin',
 		'Moscow',
 		'Helsinki',
+		'Paris',
 		1
 	]
 	qList.push(newQ);
@@ -211,6 +226,7 @@ init = () =>
 		'Rome',
 		'Vienna',
 		'Mexico',
+		'Linz',
 		2
 	]
 	qList.push(newQ);
@@ -221,6 +237,7 @@ init = () =>
 		'Copenhagen',
 		'Vatican',
 		'Kyiv',
+		'Lviv',
 		3
 	]
 	qList.push(newQ);
@@ -231,6 +248,7 @@ init = () =>
 		'Copenhagen',
 		'Moscow',
 		'Helsinki',
+		'Vienna',
 		1
 	]
 	qList.push(newQ);
@@ -241,7 +259,30 @@ init = () =>
 		'Stockholm',
 		'Helsinki',
 		'Oslo',
+		'Lviv',
 		1
+	]
+	qList.push(newQ);
+
+	newQ = new Object();
+	newQ.question = [
+		'What is the capital of Finland?',
+		'Stockholm',
+		'Helsinki',
+		'Oslo',
+		'Berlin',
+		2
+	]
+	qList.push(newQ);
+
+	newQ = new Object();
+	newQ.question = [
+		'What is the capital of Russia?',
+		'Stockholm',
+		'Helsinki',
+		'Moscow',
+		'Petersborg',
+		3
 	]
 	qList.push(newQ);
 	

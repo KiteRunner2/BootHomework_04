@@ -27,11 +27,22 @@
           <div class="py-3 font-weight-bold" id="question">question goes here</div>
           <button type="button" id="btn1" value="" class="w-100 btn btn-outline-primary d-block shadow-sm" onclick="appCtrl.checkAnswer(1)">Answer no 1</button>
           <br><button type="button" id="btn2" value ="" class="w-100 btn btn-outline-primary d-block shadow-sm" onclick="appCtrl.checkAnswer(2)">Answer no 2</button>
-          <br><button type="button" id="btn3" value ="" class="w-100 btn btn-outline-primary d-block shadow-sm" onclick="appCtrl.checkAnswer(3)"">Answer no 3</button>
+          <br><button type="button" id="btn3" value ="" class="w-100 btn btn-outline-primary d-block shadow-sm" onclick="appCtrl.checkAnswer(3)">Answer no 3</button>
+          <br><button type="button" id="btn4" value ="" class="w-100 btn btn-outline-primary d-block shadow-sm" onclick="appCtrl.checkAnswer(4)">Answer no 4</button>
           <br>
-         <div class="text-left font-weight-bold"><span>Score: &nbsp;</span><span id="score" >0</span><span id="answer" class="font-weight-bold" style="float: right;"></span></div>
+         <div class="text-left font-weight-bold">
+           <span>Score: &nbsp;</span><span id="score" >0</span><span id="answer" class="font-weight-bold" style="float: right;"></span>
         </div>
-        <div class="col-md-2 text-primary py-4">RANKING</div>
+        </div>
+        <div class="col-md-2 text-primary py-4" id="ranks">
+          <p>HIGHEST SCORES:
+            <ol>
+              <li>Przemek</li>
+              <li>Peter</li>
+              <li>Parisa</li>
+            </ol>
+          </p>
+        </div>
       </div>
       <div class="row text-center text-primary invisible" id="thirdRow">
         <div class="col-md-12"><form><input type="text text-primary" placeholder="Enter your name:"></input></form>
