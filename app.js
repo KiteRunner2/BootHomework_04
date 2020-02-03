@@ -242,6 +242,7 @@ Choose correct capital of the country
 const dataCtrl = (() => {
 	console.log('dataCtrl module started...');
 	let qList = JSON.parse(localStorage.getItem('ql'));
+
 	//returns questions list in random order from all questions
 	getQuestions = (n) => {
 		//debugger;
@@ -271,12 +272,14 @@ const dataCtrl = (() => {
 		fameScore3.innerText = list[2].score;
 		//return list;
 	}
-	//adds new name to hall of fame
-	addFame = (name, score) => {
+	//adds new name to hall of fame from input form displayed at the end of quiz
+	addFame = () => {
+		debugger;
+		console.log('add Fame called');
 		let list = JSON.parse(localStorage.getItem('fame'));
 		let newPerson = new Object();
-		newPerson.name = name;
-		newPerson.score = score;
+		newPerson.name = document.getElementById('inputName').innerText;
+		newPerson.score = 666;
 		list.push(newPerson);
 		localStorage.setItem('fame', JSON.stringify(list));
 	}
@@ -362,34 +365,10 @@ const appCtrl = (() => {
   			}
 		}
 		modal.style.display = "block";
-		return true;
+		//return true;
 	}
-	addName = () => {
-		let name = document.getElementById('inputName').innerText;
-		console.log(name);
-
-		let HoF = [];
-		let newPerson;
-	newPerson = new Object();
-	newPerson.name = 'Master';
-	newPerson.score = 15;
-	HoF.push(newPerson);
-
-	newPerson = new Object();
-	newPerson.name = 'BeatMe';
-	newPerson.score = 20;
-	HoF.push(newPerson);
-
-	newPerson = new Object();
-	newPerson.name = 'Kiss Me';
-	newPerson.score = 50;
-	HoF.push(newPerson);
-
-	localStorage.setItem('fame', JSON.stringify(HoF));
-	}
+	
 	return {
-		
-		addToRank:addName,
 		showForm:showModal,
 		//checking if answer is correct and pushing next question
 		checkAnswer: answer = (btn) => {
