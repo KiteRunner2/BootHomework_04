@@ -1,6 +1,17 @@
-const questionsCtrl = (() => {
+/* Quiz application
+Choose correct capital of the country
+*/
+
+/*data control function for 
+1. setting and reading local storage data
+2. displaying/setting hall of fame results
+3. getting question list
+*/
+
+const dataCtrl = (() => {
 	console.log('questionCtrl module started...');
 	let qList = JSON.parse(localStorage.getItem('ql'));	
+	//returns questions list in random order from all questions
 	getQuestions = (n) => {
 		//debugger;
 		qList = JSON.parse(localStorage.getItem('ql'));
@@ -12,7 +23,7 @@ const questionsCtrl = (() => {
 		}
 		return qArray;
 	}
-
+	//displays hall of fame results
 	getFame = () => {
 		let list = JSON.parse(localStorage.getItem('fame'));
 		let fameBox1 = document.getElementById('fame-name1');
@@ -29,7 +40,7 @@ const questionsCtrl = (() => {
 		fameScore3.innerText = list[2].score;
 		//return list;
 	}
-
+	//adds new name to hall of fame
 	addFame = (name,score) => {
 		let list = JSON.parse(localStorage.getItem('fame'));
 		let newPerson = new Object();
@@ -60,14 +71,14 @@ const appCtrl = (() => {
 	let thirdRow = document.getElementById('thirdRow');
 	let questionBox = document.getElementById('question');
 	let answerBox = document.getElementById('answer');
-	let questions;
 	let scoreBox = document.getElementById('score');
-	let questionNo = 0;
-	let score = 0;
 	let minBox = document.getElementById('min');
 	let secBox = document.getElementById('sec');
+	let questions;
+	let questionNo = 0;
+	let score = 0;
 	let timerInterval;
-	
+	//timer function to control timeout and display
 	Timer = () =>
 	{
 		//debugger;
@@ -92,6 +103,7 @@ const appCtrl = (() => {
 	}
 
 	return {
+		//checking if answer is correct and pushing next question
 		checkAnswer:answer = (btn) => {
 			console.log('checking answer...');
 			//debugger;
@@ -143,6 +155,7 @@ const appCtrl = (() => {
 			scoreBox.innerText = score;
 			appCtrl.nextQuestion(questionNo);
 		},
+		//startup function of the quiz
 		startQuiz:quiz = () => {
 			console.log('starting quiz');
 			firstRow.classList.toggle("invisible");
@@ -151,13 +164,14 @@ const appCtrl = (() => {
 			secBox.innerText = 30;
 			scoreBox.innerText = 0;
 			score=0;
-			questionsCtrl.ranks();
+			dataCtrl.ranks();
 			clearInterval(timerInterval);
 			timerInterval = setInterval(Timer,1000);
-			questions = questionsCtrl.questionList(questionsCtrl.noOfQuestions);
+			questions = dataCtrl.questionList(dataCtrl.noOfQuestions);
 			questionNo = 0;
 			appCtrl.nextQuestion(questionNo);
 		},
+		//checking if questions finished, displaying questions, setting buttons values
 		nextQuestion:next = (n) => {
 			
 				if (n == questions.length){
@@ -197,10 +211,11 @@ const appCtrl = (() => {
 		}
 		
 	}
-	
-
 })();
-
+//init function, clearing local storage
+//building question list
+//building initial hall of fame list
+//adding event listneres
 init = () =>
 	{
 	localStorage.clear();
@@ -425,20 +440,11 @@ init = () =>
 	]
 	qList.push(newQ);
 	
-	
-	
 	localStorage.setItem('ql',JSON.stringify(qList));
 
 	document.getElementById("start").addEventListener('click',appCtrl.startQuiz);
 	questionNo = 0;
 			
-		//timer -= 1000;
-		//console.log(timer.getMinutes());
-		//console.log(timer.getTime());
-		//console.log(Date.now());
-		//console.log(questions);
 	}
-
-
 
 init();
