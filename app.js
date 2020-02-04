@@ -317,7 +317,7 @@ const appCtrl = (function apCtrl() {
 	let timerInterval;
 
 	//decrese timer by 5 sec when wrong answer
-	Penalty = () => {
+	function Penalty(){
 		console.log('Penalty function called ...');
 		secBox.innerText = parseInt(secBox.innerText) - 5;
 	}
@@ -348,7 +348,7 @@ const appCtrl = (function apCtrl() {
 		}
 	}
 
-	showModal = () => {
+	function showModal(){
 		console.log('show form function called ...')
 		// Get the modal
 		var modal = document.getElementById("myModal");
@@ -441,80 +441,9 @@ const appCtrl = (function apCtrl() {
 			scoreBox2.innerText = score;
 			appCtrl.nextQuestion(questionNo);
 	}
-	return {
-		showForm:showModal,
-		//checking if answer is correct and pushing next question
-		checkAnswer: answer, /* = (btn) => {
-			console.log('check answer function called ...');
-			
-			switch (btn) {
-				case 1:
-					if (btn1.value == "true") {
-						answerBox.classList.add('text-success');
-						answerBox.classList.remove('text-danger');
-						answerBox.innerText = "Correct answer!";
-						score++;
-						break;
-					} else {
-						answerBox.classList.add('text-danger');
-						answerBox.classList.remove('text-success');
-						answerBox.innerText = "Wrong answer!";
-						Penalty();
-						break;
-					}
 
-				case 2:
-					if (btn2.value == "true") {
-						answerBox.classList.add('text-success');
-						answerBox.classList.remove('text-danger');
-						answerBox.innerText = "Correct answer!";
-						score++;
-						break;
-					} else {
-						answerBox.classList.add('text-danger');
-						answerBox.classList.remove('text-success');
-						answerBox.innerText = "Wrong answer!";
-						Penalty();
-						break;
-					}
-
-				case 3:
-					if (btn3.value == "true") {
-						answerBox.classList.add('text-success');
-						answerBox.classList.remove('text-danger');
-						answerBox.innerText = "Correct answer!";
-						score++;
-						break;
-					} else {
-						answerBox.classList.add('text-danger');
-						answerBox.classList.remove('text-success');
-						answerBox.innerText = "Wrong answer!";
-						Penalty();
-						break;
-					}
-				case 4:
-					if (btn4.value == "true") {
-						answerBox.classList.add('text-success');
-						answerBox.classList.remove('text-danger');
-						answerBox.innerText = "Correct answer!";
-						score++;
-						break;
-					} else {
-						answerBox.classList.add('text-danger');
-						answerBox.classList.remove('text-success');
-						answerBox.innerText = "Wrong answer!";
-						Penalty();
-						break;
-					}
-			}
-			scoreBox.innerText = score;
-			scoreBox2.innerText = score;
-			appCtrl.nextQuestion(questionNo);
-		}, */
-		//startup function of the quiz
-		startQuiz: quiz = () => {
-			//console.log('appCtrl module started...');
-			console.log('starting quiz function executed...');
+	function quiz(){
+		console.log('starting quiz function executed...');
 			firstRow.classList.toggle("invisible");
 			secondRow.classList.toggle("invisible");
 			timeLeftBox.className = "col-md-2 text-primary";
@@ -529,45 +458,53 @@ const appCtrl = (function apCtrl() {
 			questions = dataCtrl.questionList(initD.noOfQuestions);
 			questionNo = 0;
 			appCtrl.nextQuestion(questionNo);
-		},
-		//checking if questions finished, displaying questions, setting buttons values
-		nextQuestion: next = (n) => {
-			console.log('nextQuestion function executed...');
-			if (n == questions.length) {
-				console.log('end of questions! Ending game...');
-				answerBox.innerText = 'End of QUIZ!';
-				//thirdRow.classList.toggle("invisible");
-				firstRow.classList.toggle("invisible");
-				secondRow.classList.toggle("invisible");
-				clearInterval(timerInterval);
-				appCtrl.showForm();
-				return;
-			}
-			let k = questions[n][0];
-			questionBox.innerText = k.question[0];
-			btn1.innerText = k.question[1];
-			btn2.innerText = k.question[2];
-			btn3.innerText = k.question[3];
-			btn4.innerText = k.question[4];
-			btn1.value = "";
-			btn2.value = "";
-			btn3.value = "";
-			btn4.value = "";
-			switch (k.question[5]) {
-				case 1:
-					btn1.value = "true";
-					break;
-				case 2:
-					btn2.value = "true";
-					break;
-				case 3:
-					btn3.value = "true";
-					break;
-				case 4:
-					btn4.value = "true";
-			}
-			questionNo++;
+	}
+
+	function next(n){
+		console.log('nextQuestion function executed...');
+		if (n == questions.length) {
+			console.log('end of questions! Ending game...');
+			answerBox.innerText = 'End of QUIZ!';
+			//thirdRow.classList.toggle("invisible");
+			firstRow.classList.toggle("invisible");
+			secondRow.classList.toggle("invisible");
+			clearInterval(timerInterval);
+			appCtrl.showForm();
+			return;
 		}
+		let k = questions[n][0];
+		questionBox.innerText = k.question[0];
+		btn1.innerText = k.question[1];
+		btn2.innerText = k.question[2];
+		btn3.innerText = k.question[3];
+		btn4.innerText = k.question[4];
+		btn1.value = "";
+		btn2.value = "";
+		btn3.value = "";
+		btn4.value = "";
+		switch (k.question[5]) {
+			case 1:
+				btn1.value = "true";
+				break;
+			case 2:
+				btn2.value = "true";
+				break;
+			case 3:
+				btn3.value = "true";
+				break;
+			case 4:
+				btn4.value = "true";
+		}
+		questionNo++;
+	}
+	return {
+		showForm:showModal,
+		//checking if answer is correct and pushing next question
+		checkAnswer: answer, 
+		//startup function of the quiz
+		startQuiz: quiz,
+		//checking if questions finished, displaying questions, setting buttons values
+		nextQuestion: next	
 	}
 })();
 
