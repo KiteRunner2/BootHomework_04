@@ -226,7 +226,6 @@ const initD = (function initData() {
 		'Buenos Aires',
 		3
 	]
-	//debugger;
 	qList.push(newQ);
 	localStorage.setItem('ql', JSON.stringify(qList));
 	console.log('Init data function executed');
@@ -245,12 +244,11 @@ const initD = (function initData() {
 
 const dataCtrl = (function dCtrl() {
 	console.log('dataCtrl module started...');
-	//let qList = JSON.parse(localStorage.getItem('ql'));
-
+	
 	//returns questions list in random order from all questions
 	getQuestions = (n) => {
 		console.log('getQuestions function called...');
-		//debugger;
+
 		let qList = JSON.parse(localStorage.getItem('ql'));
 		let qArray = [];
 		for (let k = 0; k < n; k++) {
@@ -260,7 +258,7 @@ const dataCtrl = (function dCtrl() {
 		}
 		return qArray;
 	}
-	//displays hall of fame results
+	//displays 3 hall of fame results
 	getFame = () => {
 		let list = JSON.parse(localStorage.getItem('fame'));
 		let fameBox1 = document.getElementById('fame-name1');
@@ -276,11 +274,11 @@ const dataCtrl = (function dCtrl() {
 		fameBox3.innerText = list[2].name;
 		fameScore3.innerText = list[2].score;
 		return false;
-		//return list;
+		
 	}
 	//adds new name to hall of fame from input form displayed at the end of quiz
 	addFame = () => {
-		//debugger;
+		
 		console.log('add Fame function called...');
 		let list = JSON.parse(localStorage.getItem('fame'));
 		let newPerson = new Object();
@@ -292,13 +290,10 @@ const dataCtrl = (function dCtrl() {
 	}
 
 	return {
-		
 		questionList: getQuestions,
-		//noOfQuestions: qList.length,
-		ranks: getFame,
-		setFame: addFame
+		setFame: addFame,
+		ranks:getFame
 	}
-
 })();
 
 const appCtrl = (function apCtrl() {
@@ -314,28 +309,24 @@ const appCtrl = (function apCtrl() {
 	let answerBox = document.getElementById('answer');
 	let scoreBox = document.getElementById('score');
 	let scoreBox2 = document.getElementById('displayScore');
-	//let buttonsBox = document.getElementById('buttons');
-	//let minBox = document.getElementById('min');
 	let secBox = document.getElementById('sec');
 	let timeLeftBox = document.getElementById('timeLeft');
-	//let countdownBox  = document.getElementById('countdown');
 	let questions;
-	//let penalty = 0;
 	let questionNo = 0;
 	let score = 0;
 	let timerInterval;
-	//decrese timer by 5 sec
+
+	//decrese timer by 5 sec when wrong answer
 	Penalty = () => {
 		console.log('Penalty function called ...');
 		secBox.innerText = parseInt(secBox.innerText) - 5;
 	}
-	//timer function to control timeout and display
+
+	//timer function to control timeout and timeout display
 	Timer = () => {
 		console.log('Timer function called ...');
-		//debugger;
-		//et min = parseInt(minBox.innerText);
 		let sec = parseInt(secBox.innerText);
-		//let sec = parseInt(minBox.value);
+		
 		if (sec <= 0) {
 			answerBox.innerText = 'Time out!';
 			secondRow.classList.toggle("invisible");
@@ -344,18 +335,17 @@ const appCtrl = (function apCtrl() {
 			appCtrl.showForm();
 			return false;
 		}
-		let timeout = sec * 1000;
-		let timer = new Date();
-		timer.setTime(timeout);
-		timeout -= 1000;
-		//timeout -= penalty;
-		timer.setTime(timeout);
-		if (timeout < 10000) {
-			timeLeftBox.className = "font-weight-bold col-md-2 text-danger";
+		else {
+			let timeout = sec * 1000;
+			let timer = new Date();
+			timer.setTime(timeout);
+			timeout -= 1000;
+			timer.setTime(timeout);
+			if (timeout < 10000) {
+				timeLeftBox.className = "font-weight-bold col-md-2 text-danger";
+			}
+			secBox.innerText = timer.getMinutes(timeout)*60  + timer.getSeconds(timeout);
 		}
-		//minBox.innerText = timer.getMinutes(timeout);
-		secBox.innerText = timer.getMinutes(timeout)*60  + timer.getSeconds(timeout);
-		//countdownBox.value = timer.getSeconds(timeout);
 	}
 
 	showModal = () => {
@@ -384,12 +374,9 @@ const appCtrl = (function apCtrl() {
 		return false;
 	}
 	
-	return {
-		showForm:showModal,
-		//checking if answer is correct and pushing next question
-		checkAnswer: answer = (btn) => {
-			console.log('check answer function called ...');
-			//debugger;
+	function answer(btn){
+		console.log('check answer function called ...');
+			
 			switch (btn) {
 				case 1:
 					if (btn1.value == "true") {
@@ -453,7 +440,77 @@ const appCtrl = (function apCtrl() {
 			scoreBox.innerText = score;
 			scoreBox2.innerText = score;
 			appCtrl.nextQuestion(questionNo);
-		},
+	}
+	return {
+		showForm:showModal,
+		//checking if answer is correct and pushing next question
+		checkAnswer: answer, /* = (btn) => {
+			console.log('check answer function called ...');
+			
+			switch (btn) {
+				case 1:
+					if (btn1.value == "true") {
+						answerBox.classList.add('text-success');
+						answerBox.classList.remove('text-danger');
+						answerBox.innerText = "Correct answer!";
+						score++;
+						break;
+					} else {
+						answerBox.classList.add('text-danger');
+						answerBox.classList.remove('text-success');
+						answerBox.innerText = "Wrong answer!";
+						Penalty();
+						break;
+					}
+
+				case 2:
+					if (btn2.value == "true") {
+						answerBox.classList.add('text-success');
+						answerBox.classList.remove('text-danger');
+						answerBox.innerText = "Correct answer!";
+						score++;
+						break;
+					} else {
+						answerBox.classList.add('text-danger');
+						answerBox.classList.remove('text-success');
+						answerBox.innerText = "Wrong answer!";
+						Penalty();
+						break;
+					}
+
+				case 3:
+					if (btn3.value == "true") {
+						answerBox.classList.add('text-success');
+						answerBox.classList.remove('text-danger');
+						answerBox.innerText = "Correct answer!";
+						score++;
+						break;
+					} else {
+						answerBox.classList.add('text-danger');
+						answerBox.classList.remove('text-success');
+						answerBox.innerText = "Wrong answer!";
+						Penalty();
+						break;
+					}
+				case 4:
+					if (btn4.value == "true") {
+						answerBox.classList.add('text-success');
+						answerBox.classList.remove('text-danger');
+						answerBox.innerText = "Correct answer!";
+						score++;
+						break;
+					} else {
+						answerBox.classList.add('text-danger');
+						answerBox.classList.remove('text-success');
+						answerBox.innerText = "Wrong answer!";
+						Penalty();
+						break;
+					}
+			}
+			scoreBox.innerText = score;
+			scoreBox2.innerText = score;
+			appCtrl.nextQuestion(questionNo);
+		}, */
 		//startup function of the quiz
 		startQuiz: quiz = () => {
 			//console.log('appCtrl module started...');
@@ -510,9 +567,7 @@ const appCtrl = (function apCtrl() {
 					btn4.value = "true";
 			}
 			questionNo++;
-
 		}
-
 	}
 })();
 
