@@ -14,3 +14,5 @@ Application consistis of 3 main modules
 2. dataCtrl module - used for selecting questions, adding, retrieving names for hall of fame
 3. appCtrl module - main logic app for game; starting game, next question selection, result check, timer control
 
+Application layout works well for desktop and mobile browser. On mobile it colapses into single column.
+Layout is built using bootstrap.
