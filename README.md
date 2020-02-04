@@ -16,3 +16,8 @@ Application consistis of 3 main modules
 
 Application layout works well for desktop and mobile browser. On mobile it colapses into single column.
 Layout is built using bootstrap.
+
+# TO-DO
+1. sorting hall of fame based on result - currently it adds name to front of the list
+2. present hall of fame after game is finished and name is entered
+

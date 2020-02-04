@@ -14,28 +14,27 @@
         <div class="col-md-12 text-center">
           <h4 class="text-primary">Test yourself in a QUIZ!</h4>
         </div>
-        <div class="col-md-12 text-center py-4">
+      <div class="col-md-12 text-center py-4">
           <button type="button" class="btn btn-primary" id="start">Start!</button>
-        </div>
       </div>
-      <div class="row text-center invisible" id="secondRow">
-        <div id="timeLeft" class="col-md-2 text-primary">TIME LEFT: &nbsp;
+    </div>
+    <div class="row text-center invisible" id="secondRow">
+      <div id="timeLeft" class="col-md-2 text-primary">TIME LEFT: &nbsp;
           <span id="sec"></span>&nbsp sec
-        </div>
-        
-        <div class="col-md-8 text-primary">
-          <div class="py-3 font-weight-bold" id="question">question goes here</div>
-          <div id="buttons">
+      </div>  
+      <div class="col-md-8 text-primary">
+        <div class="py-3 font-weight-bold" id="question">question goes here</div>
+        <div id="buttons">
           <button type="button" id="btn1" value="" class="w-100 btn btn-primary d-block shadow-sm" onclick="appCtrl.checkAnswer(1)">Answer no 1</button>
           <br><button type="button" id="btn2" value ="" class="w-100 btn btn-primary d-block shadow-sm" onclick="appCtrl.checkAnswer(2)">Answer no 2</button>
           <br><button type="button" id="btn3" value ="" class="w-100 btn btn-primary d-block shadow-sm" onclick="appCtrl.checkAnswer(3)">Answer no 3</button>
           <br><button type="button" id="btn4" value ="" class="w-100 btn btn-primary d-block shadow-sm" onclick="appCtrl.checkAnswer(4)">Answer no 4</button>
           <br>
         </div>
-         <div class="text-left font-weight-bold">
-           <span>Score: &nbsp;</span><span id="score" >0</span><span id="answer" class="font-weight-bold" style="float: right;"></span>
+        <div class="text-left font-weight-bold">
+          <span>Score: &nbsp;</span><span id="score" >0</span><span id="answer" class="font-weight-bold" style="float: right;"></span>
         </div>
-        </div>
+      </div>
         <div class="col-md-2 text-primary py-4" id="ranks">
           <p class="text-primary font-weight-bold">HALL OF FAME:
             <ol>
