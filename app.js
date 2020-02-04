@@ -5,9 +5,9 @@ Choose correct capital of the country
 //data intitiation function
 // loading questions data and answers
 //loading hall of fame dummy names
-(initData = () => {
+const initD = (function initData() {
+	
 	localStorage.clear();
-
 	let HoF = [];
 	let newPerson;
 	newPerson = new Object();
@@ -226,9 +226,13 @@ Choose correct capital of the country
 		'Buenos Aires',
 		3
 	]
+	//debugger;
 	qList.push(newQ);
-
 	localStorage.setItem('ql', JSON.stringify(qList));
+	console.log('Init data function executed');
+	return {
+		noOfQuestions:qList.length
+	}
 })();
 
 
@@ -239,14 +243,15 @@ Choose correct capital of the country
 3. getting question list
 */
 
-const dataCtrl = (() => {
+const dataCtrl = (function dCtrl() {
 	console.log('dataCtrl module started...');
-	let qList = JSON.parse(localStorage.getItem('ql'));
+	//let qList = JSON.parse(localStorage.getItem('ql'));
 
 	//returns questions list in random order from all questions
 	getQuestions = (n) => {
+		console.log('getQuestions function called...');
 		//debugger;
-		qList = JSON.parse(localStorage.getItem('ql'));
+		let qList = JSON.parse(localStorage.getItem('ql'));
 		let qArray = [];
 		for (let k = 0; k < n; k++) {
 			let ran = Math.floor(Math.random() * qList.length);
@@ -270,32 +275,34 @@ const dataCtrl = (() => {
 		fameScore2.innerText = list[1].score;
 		fameBox3.innerText = list[2].name;
 		fameScore3.innerText = list[2].score;
+		return false;
 		//return list;
 	}
 	//adds new name to hall of fame from input form displayed at the end of quiz
 	addFame = () => {
-		debugger;
-		console.log('add Fame called');
+		//debugger;
+		console.log('add Fame function called...');
 		let list = JSON.parse(localStorage.getItem('fame'));
 		let newPerson = new Object();
-		newPerson.name = document.getElementById('inputName').innerText;
-		newPerson.score = 666;
-		list.push(newPerson);
+		newPerson.name = document.getElementById('inputName').value;
+		newPerson.score = parseInt(document.getElementById('displayScore').innerText);
+		list.unshift(newPerson);
 		localStorage.setItem('fame', JSON.stringify(list));
+		return false;
 	}
 
 	return {
-
+		
 		questionList: getQuestions,
-		noOfQuestions: qList.length,
+		//noOfQuestions: qList.length,
 		ranks: getFame,
 		setFame: addFame
 	}
 
 })();
 
-const appCtrl = (() => {
-
+const appCtrl = (function apCtrl() {
+	console.log('appCtrl module started...');
 	let btn1 = document.getElementById('btn1');
 	let btn2 = document.getElementById('btn2');
 	let btn3 = document.getElementById('btn3');
@@ -306,7 +313,8 @@ const appCtrl = (() => {
 	let questionBox = document.getElementById('question');
 	let answerBox = document.getElementById('answer');
 	let scoreBox = document.getElementById('score');
-	let buttonsBox = document.getElementById('buttons');
+	let scoreBox2 = document.getElementById('displayScore');
+	//let buttonsBox = document.getElementById('buttons');
 	//let minBox = document.getElementById('min');
 	let secBox = document.getElementById('sec');
 	let timeLeftBox = document.getElementById('timeLeft');
@@ -318,10 +326,12 @@ const appCtrl = (() => {
 	let timerInterval;
 	//decrese timer by 5 sec
 	Penalty = () => {
+		console.log('Penalty function called ...');
 		secBox.innerText = parseInt(secBox.innerText) - 5;
 	}
 	//timer function to control timeout and display
 	Timer = () => {
+		console.log('Timer function called ...');
 		//debugger;
 		//et min = parseInt(minBox.innerText);
 		let sec = parseInt(secBox.innerText);
@@ -330,8 +340,9 @@ const appCtrl = (() => {
 			answerBox.innerText = 'Time out!';
 			secondRow.classList.toggle("invisible");
 			firstRow.classList.toggle("invisible");
+			clearInterval(timerInterval);
 			appCtrl.showForm();
-			return;
+			return false;
 		}
 		let timeout = sec * 1000;
 		let timer = new Date();
@@ -348,6 +359,7 @@ const appCtrl = (() => {
 	}
 
 	showModal = () => {
+		console.log('show form function called ...')
 		// Get the modal
 		var modal = document.getElementById("myModal");
 		// Get the button that opens the modal
@@ -365,14 +377,18 @@ const appCtrl = (() => {
   			}
 		}
 		modal.style.display = "block";
-		//return true;
+		btn.addEventListener('click',function(){
+			modal.style.display = "none";
+			return false;
+		})
+		return false;
 	}
 	
 	return {
 		showForm:showModal,
 		//checking if answer is correct and pushing next question
 		checkAnswer: answer = (btn) => {
-			console.log('checking answer...');
+			console.log('check answer function called ...');
 			//debugger;
 			switch (btn) {
 				case 1:
@@ -435,11 +451,13 @@ const appCtrl = (() => {
 					}
 			}
 			scoreBox.innerText = score;
+			scoreBox2.innerText = score;
 			appCtrl.nextQuestion(questionNo);
 		},
 		//startup function of the quiz
 		startQuiz: quiz = () => {
-			console.log('starting quiz');
+			//console.log('appCtrl module started...');
+			console.log('starting quiz function executed...');
 			firstRow.classList.toggle("invisible");
 			secondRow.classList.toggle("invisible");
 			timeLeftBox.className = "col-md-2 text-primary";
@@ -451,13 +469,13 @@ const appCtrl = (() => {
 			dataCtrl.ranks();
 			clearInterval(timerInterval);
 			timerInterval = setInterval(Timer, 1000);
-			questions = dataCtrl.questionList(dataCtrl.noOfQuestions);
+			questions = dataCtrl.questionList(initD.noOfQuestions);
 			questionNo = 0;
 			appCtrl.nextQuestion(questionNo);
 		},
 		//checking if questions finished, displaying questions, setting buttons values
 		nextQuestion: next = (n) => {
-
+			console.log('nextQuestion function executed...');
 			if (n == questions.length) {
 				console.log('end of questions! Ending game...');
 				answerBox.innerText = 'End of QUIZ!';
@@ -497,17 +515,18 @@ const appCtrl = (() => {
 
 	}
 })();
+
+
+
 //init function, clearing local storage
 //building question list
 //building initial hall of fame list
 //adding event listneres
 
-
-
-init = () => {
+const init = (function initF() {
 	document.getElementById("start").addEventListener('click', appCtrl.startQuiz);
 	questionNo = 0;
-	console.log('init done...');
-}
+	console.log('init function executed...');
+})();
 
-init();
+

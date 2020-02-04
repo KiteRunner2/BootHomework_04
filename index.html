@@ -58,13 +58,13 @@
   <div class="modal-content">
     <span class="close text-right">&times;</span>
     <br>
-    <form class="text-center" onsubmit="return false;">
+    <form class="text-center" onsubmit='dataCtrl.setFame(); return false;'>
       <div class="form-group text-center">
-        
+      <div><p class="text-primary">Your score is: <span id="displayScore">0</span></p></div>
         <input type="text" class="form-control" id="inputName" aria-describedby="textHelp" placeholder="Enter name">
         <small id="textHelp" class="form-text text-muted">You will enter hall of fame!</small>
       </div>
-      <button type="submit" id="myBtn" onclick="dataCtrl.setFame()" class="btn btn-primary text-center">Submit</button>
+      <button type="submit" id="myBtn" onclick='' class="btn btn-primary text-center">Submit</button>
     </form>
   </div>
 
