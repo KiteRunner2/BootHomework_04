@@ -323,7 +323,7 @@ const appCtrl = (function apCtrl() {
 	}
 
 	//timer function to control timeout and timeout display
-	Timer = () => {
+	function Timer(){
 		console.log('Timer function called ...');
 		let sec = parseInt(secBox.innerText);
 		
@@ -463,39 +463,41 @@ const appCtrl = (function apCtrl() {
 	function next(n){
 		console.log('nextQuestion function executed...');
 		if (n == questions.length) {
-			console.log('end of questions! Ending game...');
+			
 			answerBox.innerText = 'End of QUIZ!';
-			//thirdRow.classList.toggle("invisible");
 			firstRow.classList.toggle("invisible");
 			secondRow.classList.toggle("invisible");
 			clearInterval(timerInterval);
 			appCtrl.showForm();
 			return;
 		}
-		let k = questions[n][0];
-		questionBox.innerText = k.question[0];
-		btn1.innerText = k.question[1];
-		btn2.innerText = k.question[2];
-		btn3.innerText = k.question[3];
-		btn4.innerText = k.question[4];
-		btn1.value = "";
-		btn2.value = "";
-		btn3.value = "";
-		btn4.value = "";
-		switch (k.question[5]) {
-			case 1:
-				btn1.value = "true";
-				break;
-			case 2:
-				btn2.value = "true";
-				break;
-			case 3:
-				btn3.value = "true";
-				break;
-			case 4:
-				btn4.value = "true";
+		else {
+			let k = questions[n][0];
+			questionBox.innerText = k.question[0];
+			btn1.innerText = k.question[1];
+			btn2.innerText = k.question[2];
+			btn3.innerText = k.question[3];
+			btn4.innerText = k.question[4];
+			btn1.value = "";
+			btn2.value = "";
+			btn3.value = "";
+			btn4.value = "";
+			switch (k.question[5]) {
+				case 1:
+					btn1.value = "true";
+					break;
+				case 2:
+					btn2.value = "true";
+					break;
+				case 3:
+					btn3.value = "true";
+					break;
+				case 4:
+					btn4.value = "true";
+			}
+			questionNo++;
 		}
-		questionNo++;
+		
 	}
 	return {
 		showForm:showModal,
