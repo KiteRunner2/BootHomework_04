@@ -228,7 +228,7 @@ const initD = (function initData() {
 	]
 	qList.push(newQ);
 	localStorage.setItem('ql', JSON.stringify(qList));
-	console.log('Init data function executed');
+	
 	return {
 		noOfQuestions:qList.length
 	}
@@ -243,11 +243,11 @@ const initD = (function initData() {
 */
 
 const dataCtrl = (function dCtrl() {
-	console.log('dataCtrl module started...');
+	
 	
 	//returns questions list in random order from all questions
 	getQuestions = (n) => {
-		console.log('getQuestions function called...');
+		
 
 		let qList = JSON.parse(localStorage.getItem('ql'));
 		let qArray = [];
@@ -279,7 +279,7 @@ const dataCtrl = (function dCtrl() {
 	//adds new name to hall of fame from input form displayed at the end of quiz
 	addFame = () => {
 		
-		console.log('add Fame function called...');
+		
 		let list = JSON.parse(localStorage.getItem('fame'));
 		let newPerson = new Object();
 		newPerson.name = document.getElementById('inputName').value;
@@ -297,7 +297,6 @@ const dataCtrl = (function dCtrl() {
 })();
 
 const appCtrl = (function apCtrl() {
-	console.log('appCtrl module started...');
 	let btn1 = document.getElementById('btn1');
 	let btn2 = document.getElementById('btn2');
 	let btn3 = document.getElementById('btn3');
@@ -318,13 +317,11 @@ const appCtrl = (function apCtrl() {
 
 	//decrese timer by 5 sec when wrong answer
 	function Penalty(){
-		console.log('Penalty function called ...');
 		secBox.innerText = parseInt(secBox.innerText) - 5;
 	}
 
 	//timer function to control timeout and timeout display
 	function Timer(){
-		console.log('Timer function called ...');
 		let sec = parseInt(secBox.innerText);
 		
 		if (sec <= 0) {
@@ -349,7 +346,6 @@ const appCtrl = (function apCtrl() {
 	}
 
 	function showModal(){
-		console.log('show form function called ...')
 		// Get the modal
 		var modal = document.getElementById("myModal");
 		// Get the button that opens the modal
@@ -375,7 +371,6 @@ const appCtrl = (function apCtrl() {
 	}
 	
 	function answer(btn){
-		console.log('check answer function called ...');
 			
 			switch (btn) {
 				case 1:
@@ -443,7 +438,7 @@ const appCtrl = (function apCtrl() {
 	}
 
 	function quiz(){
-		console.log('starting quiz function executed...');
+		
 			firstRow.classList.toggle("invisible");
 			secondRow.classList.toggle("invisible");
 			timeLeftBox.className = "col-md-2 text-primary";
@@ -461,7 +456,7 @@ const appCtrl = (function apCtrl() {
 	}
 
 	function next(n){
-		console.log('nextQuestion function executed...');
+		
 		if (n == questions.length) {
 			
 			answerBox.innerText = 'End of QUIZ!';
@@ -520,7 +515,7 @@ const appCtrl = (function apCtrl() {
 const init = (function initF() {
 	document.getElementById("start").addEventListener('click', appCtrl.startQuiz);
 	questionNo = 0;
-	console.log('init function executed...');
+	
 })();
 
 
