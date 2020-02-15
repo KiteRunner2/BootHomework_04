@@ -1,5 +1,5 @@
-# BootHomework_04
- Quiz application
+# Quiz application
+ 
 RULES of the game:
 1. choose answer to the question, you have 60 sec to answer as many questions as you can
 2. if question is correct then you score 1 point and next question is presented
